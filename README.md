@@ -40,16 +40,7 @@ Sample metadata of an individual's demographic information is displayed.
 ## Deployment
 
 * Deployed the app to GitHub Pages. 
-* Links to deployment page  and the GitHub repo.
-
-* Ensure your repository has regular commits and a thorough README.md file
-
-## Hints
-
-* Use `console.log` inside of your JavaScript code to see what your data looks like at each step.
-
-* Refer to the [Plotly.js documentation](https://plot.ly/javascript/) when building the plots.
-
+* See the links to [deployment page](https://jobyaugustine.github.io/Plotly_WebChallenge/) and the [GitHub repo](https://github.com/jobyaugustine/Interactive_WebVisualization).
 
 
 © 2021 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
