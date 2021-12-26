@@ -4,27 +4,19 @@
 // var dataPromise = d3.json("samples.json");
 // console.log("Data Promise: ", dataPromise);
 
-// Fetch the JSON data and console log it
-// d3.json("samples.json").then(function(data) {
-//   console.log(data);
-//   // current drop down value
-//   var dropdown = d3.select("#selDataset");
-//   var names = data.names
-//   names.forEach((element) => {
-//     dropdown.append("option").attr("value",element).text(element);
-//   });
-// });
+
 // Define a function that will create metadata for given sample
 function buildMetadata(selection) {
+    
     //Use the D3 library to read in `samples.json`.
   // Read the json data
   d3.json("samples.json").then((sampleData) => {
 
       console.log(sampleData);
 
-      // Parse and filter the data to get the sample's metadata
+      // Filter the data to get the sample's metadata
       var tempmetaData = sampleData.metadata;
-      console.log("parsed data inside buildMetadata function")
+      console.log("Inside buildMetadata function")
       console.log(tempmetaData);
 
       var sample = tempmetaData.filter(item => item.id == selection);
@@ -32,7 +24,13 @@ function buildMetadata(selection) {
       console.log(sample[0]);
 
       // Specify the location of the metadata and update it
-      var metadata = d3.select("#sample-metadata").html("");
+       var metadata = d3.select("#sample-metadata").html("");
+
+    // displaying the metadata details in the Demographic Info section
+    //"metadata":[{"id": 940, "ethnicity": "Caucasian", "gender": "F", "age": 24.0, 
+    //"location": "Beaufort/NC", "bbtype": "I", "wfreq": 2.0}, 
+    //{"id": 941, "ethnicity": "Caucasian/Midleastern", "gender": "F", "age": 34.0, 
+    //"location": "Chicago/IL", "bbtype": "I", "wfreq": 1.0}, ]
 
       Object.entries(sample[0]).forEach(([key, value]) => {
           metadata.append("p").text(`${key}: ${value}`);
@@ -49,10 +47,10 @@ function buildCharts(selection) {
   // Read the json data
   d3.json("samples.json").then((sampleData) => {
 
-      // Parse and filter the data to get the sample's OTU data
-      // Pay attention to what data is required for each chart
+      // filter the data to get the sample's OTU data
+    
       var tempsamplesData = sampleData.samples;
-      console.log("parsed data inside buildCharts function")
+      console.log("Inside buildCharts function")
       console.log(tempsamplesData);
 
       var sampleDict = tempsamplesData.filter(item => item.id == selection)[0];
@@ -64,7 +62,7 @@ function buildCharts(selection) {
       var barChartValues = sampleValues.slice(0, 10).reverse();
       console.log("sample_values")
       console.log(barChartValues);
-
+// for labels of the bar chart
       var idValues = sampleDict.otu_ids;
       var barChartLabels = idValues.slice(0, 10).reverse();
       console.log("otu_ids");
@@ -75,15 +73,16 @@ function buildCharts(selection) {
           reformattedLabels.push("OTU " + label);
       });
 
-      console.log("reformatted");
+      console.log("formatted Labels");
       console.log(reformattedLabels);
 
+// for hover text for the bar chart
       var hovertext = sampleDict.otu_labels;
       var barCharthovertext = hovertext.slice(0, 10).reverse();
       console.log("otu_labels");
       console.log(barCharthovertext);
 
-      // Create bar chart in correct location
+      // Create bar chart 
 
       var barChartTrace = {
           type: "bar",
@@ -97,7 +96,7 @@ function buildCharts(selection) {
 
       Plotly.newPlot("bar", barChartData);
 
-      // Create bubble chart in correct location
+      // Create bubble chart 
 
       var bubbleChartTrace = {
           x: idValues,
@@ -131,16 +130,18 @@ function init() {
   // Read json data
   d3.json("samples.json").then((sampleData) => {
 
-      // Parse and filter data to get sample names
+      // filtering the data to get sample names  - 940,941 etc
       var filteredData = sampleData.names;
       console.log("parsed data inside init function")
       console.log(filteredData);
 
-      // Add dropdown option for each sample
+      // to create the dropdown option for each sample from the html tag
       var dropdownMenu = d3.select("#selDataset");
 
+      // populating the dropdown with the values
       filteredData.forEach((name) => {
           dropdownMenu.append("option").property("value", name).text(name);
+          
       })
 
       // Use first sample to build metadata and initial plots
@@ -151,13 +152,13 @@ function init() {
   });
 }
 
-function optionChanged(newSelection) {
+ function optionChanged(newSelection) {
 
-  // Update metadata with newly selected sample
-  buildMetadata(newSelection); 
-  // Update charts with newly selected sample
-  buildCharts(newSelection);
-}
+//   // Update metadata with newly selected sample
+   buildMetadata(newSelection); 
+//   // Update charts with newly selected sample
+   buildCharts(newSelection);
+ }
 
 // Initialize dashboard on page load
 init();
